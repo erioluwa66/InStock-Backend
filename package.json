@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "db:migrate": "knex migrate:latest",
+    "db:seed": "knex seed:run"
   },
   "keywords": [],
   "author": "",
