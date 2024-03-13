@@ -7,6 +7,7 @@ const getInventories = async (req, res) => {
         "inventories.id",
         "warehouses.warehouse_name",
         "inventories.item_name",
+        "inventories.description",
         "inventories.category",
         "inventories.status",
         "inventories.quantity"
