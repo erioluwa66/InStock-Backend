@@ -1,6 +1,6 @@
 const knex = require("knex")(require("../knexfile"));
 
-const index = async (req, res) => {
+const getInventories = async (req, res) => {
   try {
     const data = await knex
       .select(
@@ -20,5 +20,5 @@ const index = async (req, res) => {
 };
 
 module.exports = {
-  index,
+  getInventories,
 };
