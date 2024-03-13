@@ -15,7 +15,7 @@ const getInventories = async (req, res) => {
       .join("warehouses", "inventories.warehouse_id", "warehouses.id");
     res.status(200).json(data);
   } catch (err) {
-    res.status(400).send(`Error retrieving inventories: ${err}`);
+    res.status(500).send(`Unable to fetch inventory data: ${err}`);
   }
 };
 
