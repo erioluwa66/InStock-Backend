@@ -52,7 +52,43 @@ const findOneWarehouse = async (req, res) => {
     }
   }
 
+  // Add new warehouse
+  const addNewWarehouse = (req, res) => {
+	
+	const { 
+		warehouse_name,
+		address,
+		city,
+		country,
+		contact_name,
+		contact_position,
+		contact_phone,
+		contact_email
+	} = req.body;
+  if (!warehouse_name || !address || !city || !country || !contact_name || !contact_position || !contact_phone || !contact_email) 
+    return res.status(400).send("Please provide all required fields")
+
+  if (!contact_email.includes("@") || !contact_email.includes(".")) {
+    return res.status(400).send("Please enter a valid email")
+  }
+
+  if(contact_phone.length < 10) {
+    return res.status(400).send("Please enter a valid phone number");
+  }
+
+  knex("warehouses")
+    .insert(req.body)
+    .then((result) => {
+      const id = result[0];
+      res.status(201).send({id, ...req.body });
+    })
+    .catch((err) => {
+      res.status(500).send("Error in creating warehouse");
+    });
+  };
+
   module.exports = {
     findOneWarehouse,
     getWarehouses,
+    addNewWarehouse,
   };
