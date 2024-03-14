@@ -16,5 +16,9 @@ router
 
 router.route("/warehouses").post(warehousesController.addNewWarehouse)
 
+router.route("/warehouses").post(warehousesController.addNewWarehouse)
+
+router.route("warehouses/:id").put(warehousesController.editWarehouse)
+
 
 module.exports = router;
