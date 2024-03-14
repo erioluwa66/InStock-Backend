@@ -7,7 +7,7 @@ app.use(cors());
 
 const PORT = process.env.PORT || 5050;
 
-const warehousesRoutes = require("./routes/warehouses-routers");
+const warehousesRoutes = require("./routes/warehousesRoutes");
 
 // all users routes
 app.use("/api", warehousesRoutes);
