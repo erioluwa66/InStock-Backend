@@ -6,6 +6,12 @@ router.route("/inventory").get(inventoriesController.getInventories);
 
 router.route("/warehouses").get(warehousesController.getWarehouses);
 
-router.route("/warehouses/:id").get(warehousesController.findOneWarehouse);
+router
+    .route("/warehouses/:id")
+    .get(warehousesController.findOneWarehouse);
+
+router
+    .route("/inventories/:id")
+    .get(inventoriesController.getOneInventory);
 
 module.exports = router;
