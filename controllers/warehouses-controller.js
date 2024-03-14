@@ -65,8 +65,8 @@ const findOneWarehouse = async (req, res) => {
 		contact_phone,
 		contact_email
 	} = req.body;
-  if (!warehouse_name || !address || !city || !country || !contact_name || !contact_position || !contact_phone || !contact_email) 
-    return res.status(400).send("Please provide all required fields")
+  if (!warehouse_name || !address || !city || !country || !contact_name || !contact_position || !contact_phone || !contact_email) {
+    return res.status(400).send("Please provide all required fields") }
 
   if (!contact_email.includes("@") || !contact_email.includes(".")) {
     return res.status(400).send("Please enter a valid email")
