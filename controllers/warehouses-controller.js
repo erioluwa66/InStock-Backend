@@ -52,6 +52,31 @@ const findOneWarehouse = async (req, res) => {
     }
   }
 
+  const editWarehouse = async (req, res) => {
+	
+	const { 
+		warehouse_name,
+		address,
+		city,
+		country,
+		contact_name,
+		contact_position,
+		contact_phone,
+		contact_email
+	} = req.body;
+
+  if (!warehouse_name || !address || !city || !country || !contact_name || !contact_position || !contact_phone || !contact_email)  
+    return res.status(400).send("Please provide all required fields")
+
+  if (!contact_email.includes("@") || !contact_email.includes(".")) {
+    return res.status(400).send("Please enter a valid email")
+  }
+
+  if(contact_phone.length < 10) {
+    return res.status(400).send("Please enter a valid phone number");
+  }
+  }
+
   module.exports = {
     findOneWarehouse,
     getWarehouses,
