@@ -14,4 +14,7 @@ router
     .route("/inventories/:id")
     .get(inventoriesController.getOneInventory);
 
+router.route("/warehouses").post(warehousesController.addNewWarehouse)
+
+
 module.exports = router;
