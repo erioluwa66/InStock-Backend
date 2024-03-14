@@ -82,13 +82,57 @@ const findOneWarehouse = async (req, res) => {
       const id = result[0];
       res.status(201).send({id, ...req.body });
     })
-    .catch((err) => {
-      res.status(500).send("Error in creating warehouse");
+    .catch((error) => {
+      res.status(500).send(`Error in creating warehouse: ${error}`);
     });
   };
+
+  //Edit Warehouse
+  const editWarehouse = async (req, res) => {
+	
+	const { 
+		warehouse_name,
+		address,
+		city,
+		country,
+		contact_name,
+		contact_position,
+		contact_phone,
+		contact_email
+	} = req.body;
+  if (!warehouse_name || !address || !city || !country || !contact_name || !contact_position || !contact_phone || !contact_email) {
+    return res.status(400).send("Please provide all required fields")};
+
+  if (!contact_email.includes("@") || !contact_email.includes(".")) {
+    return res.status(400).send("Please enter a valid email")
+  };
+
+  if(contact_phone.length < 10) {
+    return res.status(400).send("Please enter a valid phone number");
+  };
+
+  try {
+    const updatedRows = await knex("warehouses")
+    .update(req.body)
+    where({ id: req.params.id });
+
+  if (updatedRows === 0){
+    return res.status(404).send(`Warehouse with ID of ${req.params.id} does not exist, please use accurate info`)
+  }
+
+  res.status(200).send({
+    id: req.params.id,
+    ...req.body,
+  });
+} catch (error) {
+  res.status(400).send(`Error updating warehouse with id ${req.params.id}: ${error}`);
+}
+};
 
   module.exports = {
     findOneWarehouse,
     getWarehouses,
     addNewWarehouse,
+    editWarehouse,
   };
+
