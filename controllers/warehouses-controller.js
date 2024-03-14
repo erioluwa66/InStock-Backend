@@ -114,7 +114,7 @@ const findOneWarehouse = async (req, res) => {
   try {
     const updatedRows = await knex("warehouses")
     .update(req.body)
-    where({ id: req.params.id });
+    .where({ id: req.params.id });
 
   if (updatedRows === 0){
     return res.status(404).send(`Warehouse with ID of ${req.params.id} does not exist, please use accurate info`)
