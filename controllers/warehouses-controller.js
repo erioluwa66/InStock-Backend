@@ -17,7 +17,7 @@ const findOneWarehouse = async (req, res) => {
         "address": warehouseFound[0].address,
         "city": warehouseFound[0].city,
         "country": warehouseFound[0].country,
-        "contact_name": warehouseFound[0].contact_name,
+        "contact_name": warehouseFound[0].contact_name, 
         "contact_position": warehouseFound[0].contact_position,
         "contact_phone": warehouseFound[0].contact_phone,
         "contact_email": warehouseFound[0].contact_email
@@ -30,6 +30,29 @@ const findOneWarehouse = async (req, res) => {
     }
   };
 
+
+  const getWarehouses = async (req, res) => {
+    try {
+      const warehouseData = await knex("warehouses").select(
+        "id",
+        "warehouse_name",
+        "address",
+        "city",
+        "country",
+        "contact_name",
+        "contact_position",
+        "contact_phone",
+        "contact_email"
+      );
+      res.status(200).json(warehouseData);
+    } catch (error) {
+      res.status(500).json({
+        message: `Error retrieving warehouses data: ${error}`,
+      })
+    }
+  }
+
   module.exports = {
     findOneWarehouse,
+    getWarehouses,
   };
