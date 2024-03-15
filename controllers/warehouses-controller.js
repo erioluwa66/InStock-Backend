@@ -109,9 +109,34 @@ const findOneWarehouse = async (req, res) => {
     }
   };
 
+  //GET inventories for a given warehouse
+  const getWarehouseInventories = async (req, res) => {
+    const warehouseId = req.params.id;
+  try {
+    //check if the warehouse exists
+    const warehouse = await knex('warehouses').where('id', warehouseId).first();
+    if (!warehouse) {
+      return res.status(404).json({message: 'Warehouse not found'});
+    }
+    //Retreive all inventories for the given warehouse ID
+    const inventories = await knex('inventories')
+    .where('warehouse_id', warehouseId)
+    .select('id','item_name','category','status','quantity');
+
+    res.status(200).json(inventories);
+  } catch (error) {
+      console.error('Error retreiving inventories:', error);
+      res.status(500).json({ message: 'Internal server error'});
+  };
+};
+  
+  
+
+
   module.exports = {
     findOneWarehouse,
     getWarehouses,
     addNewWarehouse,
-    removeWarehouse
+    removeWarehouse,
+    getWarehouseInventories
   };
