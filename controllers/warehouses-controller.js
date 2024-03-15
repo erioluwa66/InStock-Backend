@@ -74,20 +74,31 @@ const findOneWarehouse = async (req, res) => {
         return res.status(400).send("Please enter a valid email");
     }
 
-    if (contact_phone.length < 10) {
-        return res.status(400).send("Please enter a valid phone number");
+    // Ensure contact_phone field exists in the request body
+    if (!contact_phone) {
+        return res.status(400).send("Please provide a contact phone number");
     }
 
+     // Check if contact_phone is provided and its length is exactly 10
+    if (contact_phone && contact_phone.length !== 10) {
+        return res.status(400).send("Phone number must be 10 digits long");
+    }
+   
     next(); // Move to the next middleware function or route handler
 };
 
   // Add new warehouse
   const addNewWarehouse = (req, res) => {	
-  knex("warehouses")
+
+       if (req.body.id) {
+        return res.status(400).send("ID cannot be provided when adding a new warehouse");
+    }
+
+    knex("warehouses")
     .insert(req.body)
     .then((result) => {
       const id = result[0];
-      res.status(201).send({id, ...req.body });
+      res.status(201).send({ id, ...req.body });
     })
     .catch((error) => {
       res.status(500).send(`Error in creating warehouse: ${error}`);
@@ -97,9 +108,27 @@ const findOneWarehouse = async (req, res) => {
   //Edit Warehouse
   const editWarehouse = async (req, res) => {
   try {
+
+    const id = req.params.id;
+
+    if (req.body.id && req.body.id !== id){
+      return res.status(400).send("ID cannot be modified");
+    }
+
+   const updatedData = {
+      warehouse_name: req.body.warehouse_name,
+      address: req.body.address,
+      city: req.body.city,
+      country: req.body.country,
+      contact_name: req.body.contact_name,
+      contact_position: req.body.contact_position,
+      contact_phone: req.body.contact_phone,
+      contact_email: req.body.contact_email
+    };
+
     const updatedRows = await knex("warehouses")
-    .update(req.body)
-    .where({ id: req.params.id });
+    .update(updatedData)
+    .where({ id });
 
   if (updatedRows === 0){
     return res.status(404).send(`Warehouse with ID of ${req.params.id} does not exist, please use accurate info`)
