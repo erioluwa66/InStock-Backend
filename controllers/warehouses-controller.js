@@ -54,45 +54,36 @@ const findOneWarehouse = async (req, res) => {
     }
   }
 
-  const validateWarehouseData = (req, res, next) => {
-    const { 
-        warehouse_name,
-        address,
-        city,
-        country,
-        contact_name,
-        contact_position,
-        contact_phone,
-        contact_email
-    } = req.body;
 
-    if (!warehouse_name || !address || !city || !country || !contact_name || !contact_position || !contact_phone || !contact_email) {
-        return res.status(400).send("Please provide all required fields");
-    }
-
-    if (!contact_email.includes("@") || !contact_email.includes(".")) {
-        return res.status(400).send("Please enter a valid email");
-    }
-
-    // Ensure contact_phone field exists in the request body
-    if (!contact_phone) {
-        return res.status(400).send("Please provide a contact phone number");
-    }
-
-     // Check if contact_phone is provided and its length is exactly 10
-    if (contact_phone && contact_phone.length !== 10) {
-        return res.status(400).send("Phone number must be 10 digits long");
-    }
-   
-    next(); // Move to the next middleware function or route handler
-};
 
   // Add new warehouse
   const addNewWarehouse = (req, res) => {	
+    const { 
+    warehouse_name,
+    address,
+    city,
+    country,
+    contact_name,
+    contact_position,
+    contact_phone,
+    contact_email
+  } = req.body;
 
-       if (req.body.id) {
-        return res.status(400).send("ID cannot be provided when adding a new warehouse");
-    }
+  if (!warehouse_name || !address || !city || !country || !contact_name || !contact_position || !contact_phone || !contact_email) {
+    return res.status(400).send("Please provide all required fields");
+  }
+
+  if (!contact_email.includes("@") || !contact_email.includes(".")) {
+    return res.status(400).send("Please enter a valid email");
+  }
+
+  if (!(/^\d{10}$/.test(contact_phone))) {
+  return res.status(400).send("Please enter a valid phone number");
+  }
+
+  if (req.body.id) {
+  return res.status(400).send("ID cannot be provided when adding a new warehouse");
+  }
 
     knex("warehouses")
     .insert(req.body)
@@ -108,6 +99,28 @@ const findOneWarehouse = async (req, res) => {
   //Edit Warehouse
   const editWarehouse = async (req, res) => {
   try {
+    const { 
+      warehouse_name,
+      address,
+      city,
+      country,
+      contact_name,
+      contact_position,
+      contact_phone,
+      contact_email
+    } = req.body;
+
+    if (!warehouse_name || !address || !city || !country || !contact_name || !contact_position || !contact_phone || !contact_email) {
+      return res.status(400).send("Please provide all required fields");
+    }
+
+    if (!contact_email.includes("@") || !contact_email.includes(".")) {
+      return res.status(400).send("Please enter a valid email");
+    }
+
+    if (!(/^\d{10}$/.test(contact_phone))) {
+      return res.status(400).send("Please enter a valid phone number");
+    }
 
     const id = req.params.id;
 
@@ -115,31 +128,23 @@ const findOneWarehouse = async (req, res) => {
       return res.status(400).send("ID cannot be modified");
     }
 
-   const updatedData = {
-      warehouse_name: req.body.warehouse_name,
-      address: req.body.address,
-      city: req.body.city,
-      country: req.body.country,
-      contact_name: req.body.contact_name,
-      contact_position: req.body.contact_position,
-      contact_phone: req.body.contact_phone,
-      contact_email: req.body.contact_email
-    };
+    const updatedData = { ...req.body };
+    delete updatedData.id; // Remove ID from updated data
 
     const updatedRows = await knex("warehouses")
-    .update(updatedData)
-    .where({ id });
+      .update(updatedData)
+      .where({ id });
 
-  if (updatedRows === 0){
-    return res.status(404).send(`Warehouse with ID of ${req.params.id} does not exist, please use accurate info`)
-  }
+    if (updatedRows === 0){
+      return res.status(404).send(`Warehouse with ID of ${req.params.id} does not exist, please use accurate info`)
+    }
 
-  res.status(200).send({
-    id: req.params.id,
-    ...req.body,
-  });
-}   catch (error) {
-     res.status(400).send(`Error updating warehouse with id ${req.params.id}: ${error}`);
+    res.status(200).send({
+      id: req.params.id,
+      ...req.body,
+    });
+  } catch (error) {
+    res.status(400).send(`Error updating warehouse with id ${req.params.id}: ${error}`);
   }
 };
 
