@@ -4,7 +4,8 @@ const inventoriesController = require("../controllers/inventories-controller");
 
 router
     .route("/inventory")
-    .get(inventoriesController.getInventories);
+    .get(inventoriesController.getInventories)
+     .post(inventoriesController.addNewInventoryItem);
 
 router
     .route("/warehouses")
