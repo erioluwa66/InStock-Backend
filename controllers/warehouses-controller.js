@@ -110,7 +110,7 @@ const findOneWarehouse = async (req, res) => {
   };
 
   //GET inventories for a given warehouse
-  const warehouseInventories = async (req, res) => {
+  const getWarehouseInventories = async (req, res) => {
     const warehouseId = req.params.id;
   try {
     //check if the warehouse exists
@@ -138,5 +138,5 @@ const findOneWarehouse = async (req, res) => {
     getWarehouses,
     addNewWarehouse,
     removeWarehouse,
-    warehouseInventories
+    getWarehouseInventories
   };

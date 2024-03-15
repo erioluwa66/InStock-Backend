@@ -26,6 +26,6 @@ router
 
 router
 .route('/warehouses/:id/inventories')
-.get(warehousesController.warehouseInventories)
+.get(warehousesController.getWarehouseInventories)
 
 module.exports = router;
