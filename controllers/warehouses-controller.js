@@ -77,9 +77,10 @@ const findOneWarehouse = async (req, res) => {
     return res.status(400).send("Please enter a valid email");
   }
 
-  if (!(/^\d{10}$/.test(contact_phone))) {
-  return res.status(400).send("Please enter a valid phone number");
-  }
+  const phoneRegex = /^\+\d{1,3} \(\d{3}\) \d{3}-\d{4}$/;
+    if (!phoneRegex.test(contact_phone)) {
+      return res.status(400).send("Please enter a valid phone number in the format +1 (646) 123-1234");
+    }
 
   if (req.body.id) {
   return res.status(400).send("ID cannot be provided when adding a new warehouse");
@@ -118,8 +119,9 @@ const findOneWarehouse = async (req, res) => {
       return res.status(400).send("Please enter a valid email");
     }
 
-    if (!(/^\d{10}$/.test(contact_phone))) {
-      return res.status(400).send("Please enter a valid phone number");
+    const phoneRegex = /^\+\d{1,3} \(\d{3}\) \d{3}-\d{4}$/;
+    if (!phoneRegex.test(contact_phone)) {
+      return res.status(400).send("Please enter a valid phone number in the format +1 (646) 123-1234");
     }
 
     const id = req.params.id;
