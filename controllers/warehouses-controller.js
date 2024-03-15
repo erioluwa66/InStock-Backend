@@ -119,7 +119,9 @@ const findOneWarehouse = async (req, res) => {
       return res.status(404).json({message: 'Warehouse not found'});
     }
     //Retreive all inventories for the given warehouse ID
-    const inventories = await knex('inventories').where('warehouse_id', warehouseId);
+    const inventories = await knex('inventories')
+    .where('warehouse_id', warehouseId)
+    .select('id','item_name','category','status','quantity');
 
     res.status(200).json(inventories);
   } catch (error) {
