@@ -11,7 +11,10 @@ router
   .get(warehousesController.findOneWarehouse)
   .delete(warehousesController.removeWarehouse);
 
-router.route("/inventories/:id").get(inventoriesController.getOneInventory);
+router
+  .route("/inventories/:id")
+  .get(inventoriesController.getOneInventory)
+  .delete(inventoriesController.removeInventory);
 
 router.route("/warehouses").post(warehousesController.addNewWarehouse);
 
