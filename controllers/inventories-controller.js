@@ -128,18 +128,19 @@ const editInventory = async (req, res) => {
     }
 
     const updatedInventory = await knex("inventories")
-    .select(
-      "inventories.id",
-      "inventories.warehouse_name",
-      "inventories.item_name",
-      "inventories.description",
-      "inventories.category",
-      "inventories.status",
-      "inventories.quantity"
-    ).from("inventories")
-    .where({
-      id: req.params.id,
-    });
+      .select(
+        "inventories.id",
+        "inventories.warehouse_id",
+        "inventories.item_name",
+        "inventories.description",
+        "inventories.category",
+        "inventories.status",
+        "inventories.quantity"
+      )
+      .from("inventories")
+      .where({
+        id: req.params.id,
+      });
 
     res.status(200).json(updatedInventory[0]);
   } catch (error) {
