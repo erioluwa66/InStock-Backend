@@ -223,6 +223,11 @@ const getWarehouseInventories = async (req, res) => {
   }
 };
 
+const findWarehouseById = async (id) => {
+  const warehouseFound = await knex("warehouses").where({ id }).first();
+  return warehouseFound || null;
+};
+
 module.exports = {
   findOneWarehouse,
   getWarehouses,
@@ -230,4 +235,5 @@ module.exports = {
   removeWarehouse,
   getWarehouseInventories,
   editWarehouse,
+  findWarehouseById
 };
