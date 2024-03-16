@@ -15,7 +15,8 @@ router
   .route("/inventories/:id")
   .get(inventoriesController.getOneInventory)
   .delete(inventoriesController.removeInventory)
-  .put(inventoriesController.editInventory)
+  .put(inventoriesController.Validator, inventoriesController.editInventory);
+
 
 router.route("/warehouses").post(warehousesController.addNewWarehouse);
 
