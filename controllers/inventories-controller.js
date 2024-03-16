@@ -42,13 +42,6 @@ const getOneInventory = async (req, res) => {
         message: `Inventory with ID ${req.params.id} not found`,
       });
     }
-      .where({ "inventories.id": req.params.id });
-
-    if (data.length === 0) {
-      return res.status(404).json({
-        message: `Inventory with ID ${req.params.id} not found`,
-      });
-    }
 
     res.status(200).json(data[0]);
   } catch (err) {
@@ -154,9 +147,6 @@ const editInventory = async (req, res) => {
     res
       .status(500)
       .send(`Error updating Inventory with id ${req.params.id}: ${error}`);
-    res
-      .status(500)
-      .send(`Unable to fetch inventory data with ID ${req.params.id}`);
   }
 };
 
