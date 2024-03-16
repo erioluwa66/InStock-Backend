@@ -235,5 +235,5 @@ module.exports = {
   removeWarehouse,
   getWarehouseInventories,
   editWarehouse,
-  findWarehouseById
+  findWarehouseById,
 };

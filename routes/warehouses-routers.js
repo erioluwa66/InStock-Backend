@@ -3,6 +3,10 @@ const warehousesController = require("../controllers/warehouses-controller");
 const inventoriesController = require("../controllers/inventories-controller");
 
 router.route("/inventory").get(inventoriesController.getInventories);
+router
+    .route("/inventory")
+    .get(inventoriesController.getInventories)
+     .post(inventoriesController.addNewInventoryItem);
 
 router.route("/warehouses").get(warehousesController.getWarehouses);
 
