@@ -130,7 +130,7 @@ const editInventory = async (req, res) => {
     const updatedInventory = await knex("inventories")
     .select(
       "inventories.id",
-      "inventories.warehouse_",
+      "inventories.warehouse_name",
       "inventories.item_name",
       "inventories.description",
       "inventories.category",
