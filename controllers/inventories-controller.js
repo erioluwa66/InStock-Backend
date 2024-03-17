@@ -31,7 +31,8 @@ const getOneInventory = async (req, res) => {
         "inventories.description",
         "inventories.category",
         "inventories.status",
-        "inventories.quantity"
+        "inventories.quantity",
+        "inventories.warehouse_id",
       )
       .from("inventories")
       .join("warehouses", "inventories.warehouse_id", "warehouses.id")
