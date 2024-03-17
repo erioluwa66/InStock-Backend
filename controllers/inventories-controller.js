@@ -3,6 +3,27 @@ const { findWarehouseById } = require("./warehouses-controller");
 
 const getInventories = async (req, res) => {
   try {
+      // define valid sort columns
+      const validSortColumns = [
+        "id",
+        "item_name",
+        "category",
+        "status",
+        "quantity",
+        "warehouse_name"
+      ];
+      // get sort_by and order_by value from req.query
+      let { sort_by = "id", order_by = "asc" } = req.query;
+      // verify sort_by value is vaild column
+      if (!validSortColumns.includes(sort_by)) {
+        sort_by = "id"; // if invalid, use id instead
+      }
+  
+      // verify order_by value，default is 'asc'
+      order_by = ["asc", "desc"].includes(order_by.toLowerCase())
+        ? order_by
+        : "asc";
+      
     const data = await knex
       .select(
         "inventories.id",
@@ -14,7 +35,8 @@ const getInventories = async (req, res) => {
         "inventories.quantity"
       )
       .from("inventories")
-      .join("warehouses", "inventories.warehouse_id", "warehouses.id");
+      .join("warehouses", "inventories.warehouse_id", "warehouses.id")
+      .orderBy(sort_by, order_by);;
     res.status(200).json(data);
   } catch (err) {
     res.status(500).send(`Unable to fetch inventory data: ${err}`);
