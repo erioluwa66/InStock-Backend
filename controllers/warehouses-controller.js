@@ -33,6 +33,22 @@ const findOneWarehouse = async (req, res) => {
 
 const getWarehouses = async (req, res) => {
   try {
+          // 定义允许排序的列名白名单
+    const validSortColumns = [
+      "warehouse_name",
+      "address",
+      "contact_name",
+      "contact_phone",
+    ];
+        // 从请求的查询参数中获取sort_by和order_by值
+        let { sort_by = 'warehouse_name', order_by = 'asc' } = req.query;
+       // 验证sort_by参数是否是有效的列名
+    if (!validSortColumns.includes(sort_by)) {
+      sort_by = 'warehouse_name'; // 如果不有效，使用默认的列名
+    }
+    
+        // 验证order_by参数，确保其值只能是'asc'或'desc'，默认为'asc'
+        order_by = ['asc', 'desc'].includes(order_by.toLowerCase()) ? order_by : 'asc';
     const warehouseData = await knex("warehouses").select(
       "id",
       "warehouse_name",
@@ -43,7 +59,9 @@ const getWarehouses = async (req, res) => {
       "contact_position",
       "contact_phone",
       "contact_email"
-    );
+    )
+    .orderBy(sort_by, order_by);
+
     res.status(200).json(warehouseData);
   } catch (error) {
     res.status(500).json({
